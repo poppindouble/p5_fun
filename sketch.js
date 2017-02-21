@@ -100,9 +100,9 @@ function updatePartical(p) {
 	//var force = min(0.5, 1 / (sigma * sqrt(2 * PI)) * exp(-(d - mu)^2/(2 * sigma^2)))
 
 	var force;
-	if (d >= 10) {
+	if (d >= 10 && d < 100) {
 		//force = min(0.5, 1 / (sigma * sqrt(2 * PI)) * exp(-(d - mu)^2/(2 * sigma^2)))
-		var k = 12
+		var k = 150
 		force = k / d
 		var fX = dx/d * force;
 		var fY = dy/d * force;
@@ -112,16 +112,17 @@ function updatePartical(p) {
 	}
 	
 	particalGoingBack(p);
-	var rx = random(-0.1, 0.1);
-	var ry = random(-0.1, 0.1);
+	var rx = random(-0.2, 0.2);
+	var ry = random(-0.2, 0.2);
 	p.vx = p.vx + rx;
 	p.vy = p.vy + ry;
 
 	p.x = p.x + p.vx;
 	p.y = p.y + p.vy;
 
-	p.vx = p.vx * 0.9
-	p.vy = p.vy * 0.9
+	var air = 0.8
+	p.vx = p.vx * air
+	p.vy = p.vy * air
 
 }
 
@@ -131,7 +132,7 @@ function particalGoingBack(p) {
 	var dy = p.y - p.targetY;
 	var d = max(1, sqrt(dx * dx + dy * dy));
 
-	var force = -d * 0.01;
+	var force = -d * 0.1;
 	// var force = -4 / d * d;
 
 	var fX = dx/d * force;
@@ -151,17 +152,35 @@ function draw() {
 	}
 	randomSeed(0);
 	noStroke();
+
+	// for(var i = 0; i < particalSystem.length; i++) {
+	// 	var p = particalSystem[i];
+
+	// 	//var redColour = map(p.nearByParticalNum, minNearbyParticals, maxNearbyParticals, 150, 230);
+	// 	//fill(redColour,0,0);
+	// 	fill(255, 0, 0)
+
+	// 	translate(p.targetX, p.targetY)
+	// 	scale(randomX, randomY)
+	// 	rotate(angle);
+	// 	ellipse(0, 0, 3, 3)
+	// 	rotate(-angle);
+	// 	scale(1/randomX, 1 / randomY)
+	// 	translate(-p.targetX, -p.targetY)
+	// }
+
 	for(var i = 0; i < particalSystem.length; i++) {
 		var p = particalSystem[i];
 
-		var redColour = map(p.nearByParticalNum, minNearbyParticals, maxNearbyParticals, 150, 230);
+		var redColour = map(p.nearByParticalNum, minNearbyParticals, maxNearbyParticals, 120, 230) + random(-50, 30);
 		fill(redColour,0,0);
+		//fill(random(120, 240),0,0)
 		var triSize = 10;
 		var angle = random(2*PI);
 
 		var variance = 0.3
-		var randomX = random(1 - variance, 1 + 1)
-		var randomY = random(1 - variance, 1 + 1)
+		var randomX = random(1 - variance, 1 + 2.5)
+		var randomY = random(1 - variance, 1 + 2.5)
 
 		if (p.nearByParticalNum < 10) {
 			randomX = 1
