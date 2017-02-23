@@ -7,6 +7,11 @@ Double722!
 vim ~/.bash_profile
 
 +++++++++++++++++
+development:
+npm run dev
+
+deployed:
+npm run clean
 npm run build
 
 cf login
@@ -14,3 +19,10 @@ cf push
 
 +++++++++++++++++
 cf push -f manifest.yml
+
+
+
+_________
+tag github
+QA sheet
+fix cloud foundery

@@ -271,9 +271,9 @@ function draw() {
 
 			fill(200, 200, 200, 100)
 			rect(minimunDistanceOutsiderPartical.x, minimunDistanceOutsiderPartical.y,
-				80, 150);
+				800, 150);
 
-			textSize(40)
+			textSize(30)
 			fill(0,0,0)
 			text(s,minimunDistanceOutsiderPartical.x, minimunDistanceOutsiderPartical.y,
 				800, 150)
