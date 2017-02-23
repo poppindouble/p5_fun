@@ -1,0 +1,16 @@
+
+pivotal.io
+
+szhao@tribalscale.com
+Double722!
+
+vim ~/.bash_profile
+
++++++++++++++++++
+npm run build
+
+cf login
+cf push
+
++++++++++++++++++
+cf push -f manifest.yml

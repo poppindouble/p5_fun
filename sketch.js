@@ -8,8 +8,10 @@ var maxNearbyParticals = 0;
 var minNearbyParticals = 0;
 
 var myImage;
+var testImage;
 function preload() {
   myImage = loadImage("New_Leaf.png");
+  testImage = loadImage("test.jpg")
 }
 
 function findMinInArray(arr) {
@@ -192,37 +194,6 @@ function draw() {
 	background(255,255);
 	//background(myImage);
 
-	//plot all hidden particals
-	for(var i = 0; i < hiddentParticals.length; i++) {
-		var dx = hiddentParticals[i].targetX - mouseX;
-		var dy = hiddentParticals[i].targetY - mouseY;
-		var d = sqrt(dx * dx + dy * dy);
-		if (d < 20) {
-			noStroke()
-			fill(0,0,0)
-			ellipse(hiddentParticals[i].x, hiddentParticals[i].y, 5);
-
-
-			var minimunDistanceOutsiderPartical = outsiderParticals[0];
-			var tempDistanceX = outsiderParticals[0].x - hiddentParticals[i].x
-			var tempDistanceY = outsiderParticals[0].y - hiddentParticals[i].y
-			var minimunDistance = sqrt(tempDistanceX * tempDistanceX + tempDistanceY * tempDistanceY)
-
-			for(var j = 0; j < outsiderParticals.length; j++) {
-				var distanceX = outsiderParticals[j].x - hiddentParticals[i].x
-				var distanceY = outsiderParticals[j].y - hiddentParticals[i].y
-				var distance = sqrt(distanceX * distanceX + distanceY * distanceY)
-				if(distance < minimunDistance) {
-					minimunDistance = distance
-					minimunDistanceOutsiderPartical = outsiderParticals[j]
-					stroke(0)
-					line(minimunDistanceOutsiderPartical.x, minimunDistanceOutsiderPartical.y, hiddentParticals[i].x, hiddentParticals[i].y)
-				}
-			}
-		}
-	}
-
-
 	randomSeed(frameCount);
 	for(var i = 0; i < particalSystem.length; i++) {
 		var p = particalSystem[i];
@@ -237,8 +208,14 @@ function draw() {
 		var redColour = map(p.nearByParticalNum, minNearbyParticals, maxNearbyParticals, 120, 230) + random(-50, 30);
 
 		// two options here, leave at edge more darker, the other is more random
-		fill(redColour,0,0);
-		//fill(random(120, 240),0,0)
+		
+		fill(random(120, 240),0,0)
+
+		if (p.nearByParticalNum < 8) {
+			fill(redColour,0,0);
+		}
+
+
 		var triSize = 10;
 		var angle = random(2*PI);
 
@@ -259,5 +236,55 @@ function draw() {
 		scale(1/randomX, 1 / randomY)
 		translate(-p.x, -p.y)
 	}
+
+		//plot all hidden particals
+	for(var i = 0; i < hiddentParticals.length; i++) {
+		var dx = hiddentParticals[i].targetX - mouseX;
+		var dy = hiddentParticals[i].targetY - mouseY;
+		var d = sqrt(dx * dx + dy * dy);
+		if (d < 30) {
+			noStroke()
+			fill(0,0,0)
+			ellipse(hiddentParticals[i].x, hiddentParticals[i].y, 8);
+
+
+			var minimunDistanceOutsiderPartical = outsiderParticals[0];
+			var tempDistanceX = outsiderParticals[0].x - hiddentParticals[i].x
+			var tempDistanceY = outsiderParticals[0].y - hiddentParticals[i].y
+			var minimunDistance = sqrt(tempDistanceX * tempDistanceX + tempDistanceY * tempDistanceY)
+
+			for(var j = 0; j < outsiderParticals.length; j++) {
+				var distanceX = outsiderParticals[j].x - hiddentParticals[i].x
+				var distanceY = outsiderParticals[j].y - hiddentParticals[i].y
+				var distance = sqrt(distanceX * distanceX + distanceY * distanceY)
+				if(distance < minimunDistance) {
+					minimunDistance = distance
+					minimunDistanceOutsiderPartical = outsiderParticals[j]
+				}
+			}
+			stroke(0)
+			ellipse(minimunDistanceOutsiderPartical.x, minimunDistanceOutsiderPartical.y, 8);
+			line(minimunDistanceOutsiderPartical.x, minimunDistanceOutsiderPartical.y, 
+				hiddentParticals[i].x, hiddentParticals[i].y)
+
+			var s = "#standforcanada#cibc#standfortribalscale. #standforcanada#cibc#standfortribalscale. #standforcanada#cibc#standfortribalscale."
+
+			fill(200, 200, 200, 100)
+			rect(minimunDistanceOutsiderPartical.x, minimunDistanceOutsiderPartical.y,
+				80, 150);
+
+			textSize(40)
+			fill(0,0,0)
+			text(s,minimunDistanceOutsiderPartical.x, minimunDistanceOutsiderPartical.y,
+				800, 150)
+
+			var imageX = minimunDistanceOutsiderPartical.x
+			var imageY = minimunDistanceOutsiderPartical.y + 150
+			image(testImage, imageX, imageY, testImage.width, testImage.height)
+
+			break
+		}
+	}
+
 
 }
